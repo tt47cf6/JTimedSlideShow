@@ -4,11 +4,12 @@ import java.awt.AWTException;
 import java.awt.Dimension;
 import java.awt.Robot;
 import java.awt.Toolkit;
-import java.io.IOException;
+
 
 /**
  * Main entry point that starts initializes objects and starts threads. All user
  * interaction on the command line occurs from this class.
+ * Slides will be displayed in alphabetical order by their filename.
  * 
  * @author Robert
  */

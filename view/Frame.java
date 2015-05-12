@@ -22,16 +22,16 @@ import controller.Runner;
 /**
  * A fullscreen-frame that displays a picture, stretched and blown up to fill
  * the screen. To display the first and every subsequent slide, advance() must
- * be called.
+ * be called. When advance is called, new files will be checked for.
  * 
  * @author Robert
  */
 public class Frame extends JFrame {
 
 	/**
-	 * A list of String filenames of the pictures to display.
+	 * A reference to the user configuration.
 	 */
-	private final List<String> myPics;
+	private final Configuration myConfig;
 
 	/**
 	 * The runner that is running this frame, used for calling end()
@@ -42,6 +42,11 @@ public class Frame extends JFrame {
 	 * The label to change the image of. This is the main content.
 	 */
 	private final JLabel myLabel;
+
+	/**
+	 * A list of String filenames of the pictures to display.
+	 */
+	private List<String> myPics;
 
 	/**
 	 * The current index of myPics of the image that is being displayed.
@@ -64,7 +69,8 @@ public class Frame extends JFrame {
 		myLabel = new JLabel();
 		myLabel.setHorizontalAlignment(JLabel.CENTER);
 		myRunner = runner;
-		myPics = new ArrayList<String>(config.getImages());
+		myConfig = config;
+		myPics = new ArrayList<String>(myConfig.getImages());
 		myIndex = -1;
 		// check for images
 		if (myPics.isEmpty()) {
@@ -95,13 +101,18 @@ public class Frame extends JFrame {
 
 	/**
 	 * Advances the current slide. In order to display the first and every
-	 * subsequent slide, this must be called.
+	 * subsequent slide, this must be called. When advance is called on the last
+	 * slide, new pictures will be checked for.
 	 * 
 	 * @throws IOException
 	 *             if the slide cannot be displayed
 	 */
 	public void advance() throws IOException {
 		myIndex++;
+		if (myIndex == myPics.size()) {
+			// look for new pictures
+			myPics = new ArrayList<String>(myConfig.getImages());
+		}
 		myIndex = myIndex % myPics.size();
 		loadPicture(myIndex);
 		repaint();

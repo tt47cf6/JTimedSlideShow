@@ -3,6 +3,7 @@ package controller;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -66,6 +67,8 @@ public class Configuration {
 		for (File file : files) {
 			result.add(file.getAbsolutePath());
 		}
+		// sort alphabetically
+		Collections.sort(result);
 		return result;
 	}
 
