@@ -8,7 +8,7 @@ Slides will be shown in alphabetical order, and at the end of each loop, new pic
 
 Usage
 -----
-<blockquote>
+'''
 timedSlideShow.jar /../path/../ display_mins delay_secs 
     /../path/../     the directory to display pictures  
                      from. Only GIF, JPG, and PNG files 
@@ -19,4 +19,4 @@ timedSlideShow.jar /../path/../ display_mins delay_secs
     delay_secs       the number of seconds to show each 
                      slide for, whole number 1 or bigger
   Example: timedSlideShow.jar c:\\pictures 60 5  
-</blockquote>
+'''
