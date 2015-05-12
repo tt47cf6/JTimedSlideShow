@@ -3,7 +3,7 @@ A Java-based slideshow application that runs for a given amount of time using pi
 
 This application is perfect for needing to run a slideshow automatically from the command line, say from cron. It will use pictures from a given directory and finish after a given number of minutes. 
 
-Slides will be shown in alphabetical order, and looks for new or missing files with each slide advance.
+Slides will be shown in alphabetical order, and new or missing files are looked for with each slide advance.
 
 
 Usage
