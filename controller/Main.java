@@ -6,44 +6,66 @@ import java.awt.Robot;
 import java.awt.Toolkit;
 import java.io.IOException;
 
-import javax.swing.SwingUtilities;
-
+/**
+ * Main entry point that starts initializes objects and starts threads. All user
+ * interaction on the command line occurs from this class.
+ * 
+ * @author Robert
+ */
 public class Main {
 
+	/**
+	 * Main method. Reads in command-line arguments, and prints the usage if the
+	 * arguments are of the wrong format or the directory does not exist.
+	 * 
+	 * @param args
+	 *            should be three long, directory, display time, slide delay
+	 */
 	public static void main(final String[] args) {
 		// if (args.length != 3) {
 		// printUsage();
 		// return;
 		// }
 		final String[] testArgs = new String[] {
-				"C:\\Users\\Robert\\Downloads", "1", "5" };
+				"C:\\Users\\Robert\\Downloads\\", "1", "5" };
+
 		final Configuration config = Configuration.parseArgs(testArgs);
-		
+
+		// arguments were in a bad format
 		if (config == null) {
 			printUsage();
 			return;
 		}
 
+		// all good, let's run
 		try {
 			final Runner runner = new Runner(config);
 			new Thread(runner).start();
 			moveMouse();
 		} catch (IllegalArgumentException e) {
 			System.err.println("Directory does not contain any pictures!");
-		} catch (IOException e) {
-			System.err.println("Pictures could not be opened!");
-		}
+		} 
 
 	}
-	
+
+	/**
+	 * Moves the mouse to the bottom-right corner of the screen, so that it is
+	 * not on top of the display. This may not work on all operating systems,
+	 * which is ok.
+	 */
 	private static void moveMouse() {
-		final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		final Dimension screenSize = Toolkit.getDefaultToolkit()
+				.getScreenSize();
 		try {
 			new Robot().mouseMove(screenSize.width, screenSize.height);
 		} catch (AWTException e) {
+			// that's ok, just ignore
 		}
 	}
-	
+
+	/**
+	 * Prints the usage information to the screen.
+	 */
 	private static void printUsage() {
 		System.out.println("Usage: timedSlideShow.jar /../path/../ display_mins delay_secs ");
 		System.out.println("    /../path/../     the directory to display pictures  ");

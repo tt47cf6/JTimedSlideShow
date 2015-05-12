@@ -19,30 +19,68 @@ import javax.swing.JLabel;
 import controller.Configuration;
 import controller.Runner;
 
+/**
+ * A fullscreen-frame that displays a picture, stretched and blown up to fill
+ * the screen. To display the first and every subsequent slide, advance() must
+ * be called.
+ * 
+ * @author Robert
+ */
 public class Frame extends JFrame {
 
+	/**
+	 * A list of String filenames of the pictures to display.
+	 */
 	private final List<String> myPics;
-	
+
+	/**
+	 * The runner that is running this frame, used for calling end()
+	 */
 	private final Runner myRunner;
 
+	/**
+	 * The label to change the image of. This is the main content.
+	 */
 	private final JLabel myLabel;
 
+	/**
+	 * The current index of myPics of the image that is being displayed.
+	 */
 	private int myIndex;
 
-	public Frame(final Configuration config, final Runner runner) throws IllegalArgumentException, IOException {
+	/**
+	 * Initializes the Frame and all fields.
+	 * 
+	 * @param config
+	 *            the user configuration
+	 * @param runner
+	 *            the runner
+	 * @throws IllegalArgumentException
+	 *             if there are no pictures in the directory
+	 */
+	public Frame(final Configuration config, final Runner runner)
+			throws IllegalArgumentException {
+		// init fields
 		myLabel = new JLabel();
+		myLabel.setHorizontalAlignment(JLabel.CENTER);
 		myRunner = runner;
 		myPics = new ArrayList<String>(config.getImages());
+		myIndex = -1;
+		// check for images
 		if (myPics.isEmpty()) {
 			throw new IllegalArgumentException("No images in folder");
 		}
-		myIndex = -1;
+		// set up JFrame
 		add(myLabel);
 		addEscapeListener();
 		setExtendedState(getExtendedState() | JFrame.MAXIMIZED_BOTH);
 		setUndecorated(true);
 	}
 
+	/**
+	 * Adds a listener for the escape key that disposes this frame and asks the
+	 * Runner to end.
+	 */
 	private void addEscapeListener() {
 		this.addKeyListener(new KeyAdapter() {
 			public void keyPressed(final KeyEvent e) {
@@ -55,6 +93,13 @@ public class Frame extends JFrame {
 
 	}
 
+	/**
+	 * Advances the current slide. In order to display the first and every
+	 * subsequent slide, this must be called.
+	 * 
+	 * @throws IOException
+	 *             if the slide cannot be displayed
+	 */
 	public void advance() throws IOException {
 		myIndex++;
 		myIndex = myIndex % myPics.size();
@@ -62,12 +107,22 @@ public class Frame extends JFrame {
 		repaint();
 	}
 
+	/**
+	 * Loads a picture from the given index, and stretches the image to fill the
+	 * whole screen. Lastly, sets the icon on myLabel to the loaded image.
+	 * 
+	 * @param index
+	 *            the index to load from
+	 * @throws IOException
+	 *             if the picture cannot be loaded
+	 */
 	private void loadPicture(final int index) throws IOException {
-		final Dimension screenSize = Toolkit.getDefaultToolkit()
-				.getScreenSize();
-		myLabel.setHorizontalAlignment(JLabel.CENTER);
+		// load
 		final BufferedImage original = ImageIO
 				.read(new File(myPics.get(index)));
+		// stretch
+		final Dimension screenSize = Toolkit.getDefaultToolkit()
+				.getScreenSize();
 		myLabel.setIcon(new ImageIcon(original.getScaledInstance(
 				(int) screenSize.getWidth(), (int) screenSize.getHeight(),
 				Image.SCALE_SMOOTH)));
