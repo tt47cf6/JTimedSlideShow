@@ -17,23 +17,26 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 
 import controller.Configuration;
+import controller.Runner;
 
 public class Frame extends JFrame {
 
 	private final List<String> myPics;
+	
+	private final Runner myRunner;
 
 	private final JLabel myLabel;
 
 	private int myIndex;
 
-	public Frame(final Configuration config) throws IllegalArgumentException, IOException {
+	public Frame(final Configuration config, final Runner runner) throws IllegalArgumentException, IOException {
 		myLabel = new JLabel();
+		myRunner = runner;
 		myPics = new ArrayList<String>(config.getImages());
 		if (myPics.isEmpty()) {
 			throw new IllegalArgumentException("No images in folder");
 		}
-		myIndex = 0;
-		loadPicture(0);
+		myIndex = -1;
 		add(myLabel);
 		addEscapeListener();
 		setExtendedState(getExtendedState() | JFrame.MAXIMIZED_BOTH);
@@ -45,6 +48,7 @@ public class Frame extends JFrame {
 			public void keyPressed(final KeyEvent e) {
 				if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
 					dispose();
+					myRunner.end();
 				}
 			}
 		});
@@ -62,7 +66,6 @@ public class Frame extends JFrame {
 		final Dimension screenSize = Toolkit.getDefaultToolkit()
 				.getScreenSize();
 		myLabel.setHorizontalAlignment(JLabel.CENTER);
-
 		final BufferedImage original = ImageIO
 				.read(new File(myPics.get(index)));
 		myLabel.setIcon(new ImageIcon(original.getScaledInstance(
