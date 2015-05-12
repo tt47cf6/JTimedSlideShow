@@ -24,9 +24,17 @@ public class Frame extends JFrame {
 
 	private final JLabel myLabel;
 
-	public Frame(final Configuration config) {
+	private int myIndex;
+
+	public Frame(final Configuration config) throws IllegalArgumentException, IOException {
 		myLabel = new JLabel();
 		myPics = new ArrayList<String>(config.getImages());
+		if (myPics.isEmpty()) {
+			throw new IllegalArgumentException("No images in folder");
+		}
+		myIndex = 0;
+		loadPicture(0);
+		add(myLabel);
 		addEscapeListener();
 		setExtendedState(getExtendedState() | JFrame.MAXIMIZED_BOTH);
 		setUndecorated(true);
@@ -43,22 +51,23 @@ public class Frame extends JFrame {
 
 	}
 
-	public void addContent() {
-		if (!myPics.isEmpty()) {
-			final Dimension screenSize = Toolkit.getDefaultToolkit()
-					.getScreenSize();
-			myLabel.setHorizontalAlignment(JLabel.CENTER);
-			try {
-				final BufferedImage original = ImageIO.read(new File(myPics
-						.get(0)));
-				myLabel.setIcon(new ImageIcon(original.getScaledInstance(
-						(int) screenSize.getWidth(),
-						(int) screenSize.getHeight(), Image.SCALE_SMOOTH)));
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			add(myLabel);
-		}
+	public void advance() throws IOException {
+		myIndex++;
+		myIndex = myIndex % myPics.size();
+		loadPicture(myIndex);
+		repaint();
+	}
+
+	private void loadPicture(final int index) throws IOException {
+		final Dimension screenSize = Toolkit.getDefaultToolkit()
+				.getScreenSize();
+		myLabel.setHorizontalAlignment(JLabel.CENTER);
+
+		final BufferedImage original = ImageIO
+				.read(new File(myPics.get(index)));
+		myLabel.setIcon(new ImageIcon(original.getScaledInstance(
+				(int) screenSize.getWidth(), (int) screenSize.getHeight(),
+				Image.SCALE_SMOOTH)));
 
 	}
 
