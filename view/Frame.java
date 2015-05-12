@@ -102,7 +102,7 @@ public class Frame extends JFrame {
 
 	/**
 	 * Advances the current slide. In order to display the first and every
-	 * subsequent slide, this must be called. With every call, the list of 
+	 * subsequent slide, this must be called. With every call, the list of
 	 * images will be updated.
 	 * 
 	 * @throws IOException
@@ -111,6 +111,11 @@ public class Frame extends JFrame {
 	public void advance() throws IOException {
 		// look for new pictures
 		myPics = new ArrayList<String>(myConfig.getImages());
+		if (myPics.size() == 0) {
+			// close if all pictures have been removed
+			myRunner.end();
+			dispose();
+		}
 		// advance
 		myIndex++;
 		myIndex = myIndex % myPics.size();
