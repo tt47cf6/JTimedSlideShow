@@ -26,6 +26,7 @@ import controller.Runner;
  * 
  * @author Robert
  */
+@SuppressWarnings("serial")
 public class Frame extends JFrame {
 
 	/**
@@ -101,19 +102,19 @@ public class Frame extends JFrame {
 
 	/**
 	 * Advances the current slide. In order to display the first and every
-	 * subsequent slide, this must be called. When advance is called on the last
-	 * slide, new pictures will be checked for.
+	 * subsequent slide, this must be called. With every call, the list of 
+	 * images will be updated.
 	 * 
 	 * @throws IOException
 	 *             if the slide cannot be displayed
 	 */
 	public void advance() throws IOException {
+		// look for new pictures
+		myPics = new ArrayList<String>(myConfig.getImages());
+		// advance
 		myIndex++;
-		if (myIndex == myPics.size()) {
-			// look for new pictures
-			myPics = new ArrayList<String>(myConfig.getImages());
-		}
 		myIndex = myIndex % myPics.size();
+		// load and repaint
 		loadPicture(myIndex);
 		repaint();
 	}

@@ -1,9 +1,9 @@
 # JTimedSlideShow
 A Java-based slideshow application that runs for a given amount of time using pictures from a specified directory, with a settable delay between each slide.
 
-This application is perfect for needing to run a slideshow automatically from the command line, say from cron. It will use picutres from a given directory and finish after a given number of minutes. 
+This application is perfect for needing to run a slideshow automatically from the command line, say from cron. It will use pictures from a given directory and finish after a given number of minutes. 
 
-Slides will be shown in alphabetical order, and at the end of each loop, new pictures are looked for and displayed in the next round.
+Slides will be shown in alphabetical order, and looks for new or missing files with each slide advance.
 
 
 Usage
