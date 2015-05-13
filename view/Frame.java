@@ -61,11 +61,8 @@ public class Frame extends JFrame {
 	 *            the user configuration
 	 * @param runner
 	 *            the runner
-	 * @throws IllegalArgumentException
-	 *             if there are no pictures in the directory
 	 */
-	public Frame(final Configuration config, final Runner runner)
-			throws IllegalArgumentException {
+	public Frame(final Configuration config, final Runner runner) {
 		// init fields
 		myLabel = new JLabel();
 		myLabel.setHorizontalAlignment(JLabel.CENTER);
@@ -73,10 +70,6 @@ public class Frame extends JFrame {
 		myConfig = config;
 		myPics = new ArrayList<String>(myConfig.getImages());
 		myIndex = -1;
-		// check for images
-		if (myPics.isEmpty()) {
-			throw new IllegalArgumentException("No images in folder");
-		}
 		// set up JFrame
 		add(myLabel);
 		addEscapeListener();
@@ -116,12 +109,16 @@ public class Frame extends JFrame {
 			myRunner.end();
 			dispose();
 		}
-		// advance
-		myIndex++;
-		myIndex = myIndex % myPics.size();
-		// load and repaint
-		loadPicture(myIndex);
-		repaint();
+		// if there is more than one picture or we're not displaying
+		// the first, advance
+		if (myIndex != 0 || myPics.size() != 1) {
+			// advance
+			myIndex++;
+			myIndex = myIndex % myPics.size();
+			// load and repaint
+			loadPicture(myIndex);
+			repaint();
+		}
 	}
 
 	/**

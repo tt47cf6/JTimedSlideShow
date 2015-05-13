@@ -17,7 +17,8 @@ public class Main {
 
 	/**
 	 * Main method. Reads in command-line arguments, and prints the usage if the
-	 * arguments are of the wrong format or the directory does not exist.
+	 * arguments are of the wrong format or the directory does not exist. Also 
+	 * checks that there are pictures in the directory.
 	 * 
 	 * @param args
 	 *            should be three long, directory, display time, slide delay
@@ -37,15 +38,17 @@ public class Main {
 			printUsage();
 			return;
 		}
+		
+		// check for files in directory
+		if (config.getImages().isEmpty()) {
+			System.out.println("Directory does not contain any pictures!");
+			return;
+		}
 
 		// all good, let's run
-		try {
-			final Runner runner = new Runner(config);
-			new Thread(runner).start();
-			moveMouse();
-		} catch (IllegalArgumentException e) {
-			System.err.println("Directory does not contain any pictures!");
-		} 
+		final Runner runner = new Runner(config);
+		new Thread(runner).start();
+		moveMouse();
 
 	}
 

@@ -46,7 +46,7 @@ public class Runner implements Runnable {
 	 * @throws IllegalArgumentException
 	 *             if directory has no pictures
 	 */
-	public Runner(final Configuration config) throws IllegalArgumentException {
+	public Runner(final Configuration config) {
 		myConfig = config;
 		myFrame = new Frame(myConfig, this);
 		myRunFlag = false;
