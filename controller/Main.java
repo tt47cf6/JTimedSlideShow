@@ -24,14 +24,12 @@ public class Main {
 	 *            should be three long, directory, display time, slide delay
 	 */
 	public static void main(final String[] args) {
-		// if (args.length != 3) {
-		// printUsage();
-		// return;
-		// }
-		final String[] testArgs = new String[] {
-				"C:\\Users\\Robert\\Downloads\\", "1", "5" };
-
-		final Configuration config = Configuration.parseArgs(testArgs);
+		// parse args
+		if (args.length != 3) {
+			printUsage();
+			return;
+		}
+		final Configuration config = Configuration.parseArgs(args);
 
 		// arguments were in a bad format
 		if (config == null) {
