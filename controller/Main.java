@@ -29,6 +29,7 @@ public class Main {
 			printUsage();
 			return;
 		}
+		
 		final Configuration config = Configuration.parseArgs(args);
 
 		// arguments were in a bad format
@@ -59,7 +60,7 @@ public class Main {
 		final Dimension screenSize = Toolkit.getDefaultToolkit()
 				.getScreenSize();
 		try {
-			new Robot().mouseMove(screenSize.width, screenSize.height);
+			new Robot().mouseMove(screenSize.width, screenSize.height / 2);
 		} catch (AWTException e) {
 			// that's ok, just ignore
 		}

@@ -1,6 +1,7 @@
 package view;
 
 import java.awt.Dimension;
+import java.awt.GraphicsEnvironment;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.KeyAdapter;
@@ -73,8 +74,9 @@ public class Frame extends JFrame {
 		// set up JFrame
 		add(myLabel);
 		addEscapeListener();
-		setExtendedState(getExtendedState() | JFrame.MAXIMIZED_BOTH);
+		setExtendedState(JFrame.MAXIMIZED_BOTH);
 		setUndecorated(true);
+		setAlwaysOnTop(true);
 	}
 
 	/**
